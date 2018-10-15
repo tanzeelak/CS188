@@ -13,7 +13,7 @@
     </div>
     <div class="table">
         <table style="width:100%">
-            <tr>
+            <tr class="header-cells">
               <th>Country</th>
               <th>Capital</th> 
               <th>Answer</th>
@@ -23,14 +23,16 @@
               <td><input type="text"></td>
               <td><button>See Answer</button></td>
             </tr>
-            <tr>
+            <tr class="correct">
               <td>Japan</td>
               <td>Tokyo</td>
-              <td>CORRECT</td>
+              <td>
+                <i class="fa fa-check" aria-hidden="true"></i>
+              </td>
             </tr>
-            <tr>
+            <tr class="incorrect">
               <td>United States of America</td>
-              <td>New York</td>
+              <td><s>New York</s></td>
               <td>Washington, D.C.</td>
             </tr>
           </table>

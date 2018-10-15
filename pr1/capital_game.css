@@ -2,4 +2,14 @@ body {
     background-color: #eee;
 }
 
-/*your code here*/
+.correct {
+    color: blue;
+}
+
+.incorrect {
+    color: red;
+}
+
+.header-cells {
+    text-align: left;
+}
