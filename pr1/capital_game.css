@@ -2,6 +2,10 @@ body {
     background-color: #eee;
 }
 
+.title {
+    font-family: 'Meddon', cursive;
+}
+
 .correct {
     color: blue;
 }
@@ -13,3 +17,13 @@ body {
 .header-cells {
     text-align: left;
 }
+
+/* .content-wrapper {
+    text-align: center;
+} */
+
+.content {
+    /* display: inline-b lock; */
+    width: 1000px;
+    margin: 0 auto; 
+} 
