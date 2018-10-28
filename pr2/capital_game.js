@@ -14,30 +14,30 @@ $(document).ready(function() {
 });
 
 function evaluateAnswer() {
-  var question = $("#pr2__question");
+  var question = $("#pr2__question").text();
   var correctAnswer = currentPair["capital"];
   var answer = $("#pr2__answer").val();
-  console.log("answer: " + answer);
-  console.log("capital: " + currentPair["capital"]);
   if (correctAnswer == answer) {
-    console.log("correcteroni");
+    resultsArray.unshift({
+      country: question,
+      capital: correctAnswer,
+      userAnswer: answer,
+      correct: true
+    });
   } else {
-    console.log("wrongo");
+    resultsArray.unshift({
+      country: question,
+      capital: correctAnswer,
+      userAnswer: answer,
+      correct: false
+    });
   }
-  resultsArray.unshift({
-    country: question,
-    capital: correctAnswer,
-    answer: answer
-  });
-  console.log(resultsArray);
-
   appendResult();
 }
 
 function updatePair() {
   var question = $("#pr2__question");
   var answer = $("#pr2__answer");
-
   var randNum = Math.floor(Math.random() * 170);
   currentPair = pairs[randNum];
   question.html(currentPair["country"]);
@@ -46,22 +46,32 @@ function updatePair() {
 }
 
 function appendResult() {
-  $("table").append(
-    '<tr class="correct">  <td>Tokyo</td> <td> <i class="fa fa-check" aria-hidden="true"></i></td> </tr>'
-  );
-}
+  var resHTML, answer;
+  var country = resultsArray[0].country;
+  var capital = resultsArray[0].capital;
+  var correctness = resultsArray[0].correct;
 
-// <tr class="correct">
-// <td>Japan</td>
-// <td>Tokyo</td>
-// <td>
-//   <i class="fa fa-check" aria-hidden="true"></i>
-// </td>
-// </tr>
-// <tr class="incorrect">
-// <td>United States of America</td>
-// <td>
-//   <s>New York</s>
-// </td>
-// <td>Washington, D.C.</td>
-// </tr>
+  if (correctness) {
+    // country, capital, checkmark
+    answer = '<i class="fa fa-check" aria-hidden="true"></i>';
+    resHTML = `
+      <tr class="correct">
+      <td>${country}</td>
+      <td>${capital}</td>
+      <td>${answer}</td>
+      </tr>
+      `;
+  } else {
+    // country, user answer, correct capital
+    answer = resultsArray[0].userAnswer;
+    resHTML = `
+      <tr class="incorrect">
+      <td>${country}</td>
+      <td><s>${answer}<s></td>
+      <td>${capital}</td>
+      </tr>
+      `;
+  }
+
+  $("#currentQuestion").after(resHTML);
+}
