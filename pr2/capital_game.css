@@ -2,4 +2,36 @@ body {
     background-color: #eee;
 }
 
-/*your code here*/
+.title {
+    font-family: 'Meddon', cursive;
+}
+
+.correct {
+    color: blue;
+}
+
+.incorrect {
+    color: red;
+}
+
+.header-cells {
+    text-align: left;
+}
+
+.content {
+    width: 1000px;
+    margin: 0 auto; 
+} 
+
+table {
+    border-collapse: collapse;
+}
+
+th {
+    border-bottom: 1px solid black;
+}
+
+td {
+    border-bottom: 1px solid #cccccc;
+}
+
