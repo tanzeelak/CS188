@@ -11,6 +11,13 @@ $(document).ready(function() {
     evaluateAnswer();
     updatePair();
   });
+
+  var answer = $("#pr2__answer");
+  console.log(answer.val());
+  answer.autocomplete({
+    source: country_capital_pairs.map(x => x["capital"]),
+    minLength: 2
+  });
 });
 
 function evaluateAnswer() {
