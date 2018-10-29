@@ -22,7 +22,45 @@ $(document).ready(function() {
       updatePair();
     }
   });
+
+  var filters = $("input[name='filter']");
+  filters.change(function() {
+    var checked = filters.filter(function() {
+      return $(this).prop("checked");
+    });
+    console.log(checked.val());
+    var checkedVal = checked.val();
+    resetFilter();
+    if (checkedVal == "correct") {
+      // add back if incorrect
+      var resultsHTMLObjects = document.getElementsByClassName("result");
+      for (var i = 0; i < resultsHTMLObjects.length; i++) {
+        if ($(resultsHTMLObjects[i]).hasClass("incorrect")) {
+          $(resultsHTMLObjects[i]).addClass("hide");
+        }
+      }
+    } else if (checkedVal == "wrong") {
+      // add back if incorrect
+      var resultsHTMLObjects = document.getElementsByClassName("result");
+      for (var i = 0; i < resultsHTMLObjects.length; i++) {
+        if ($(resultsHTMLObjects[i]).hasClass("correct")) {
+          $(resultsHTMLObjects[i]).addClass("hide");
+        }
+      }
+    }
+  });
 });
+
+function resetFilter() {
+  // console.log("im in reset filter");
+  var resultsHTMLObjects = document.getElementsByClassName("result");
+  // console.log(resultsHTMLObjects);
+  for (var i = 0; i < resultsHTMLObjects.length; i++) {
+    console.log(resultsHTMLObjects[i]);
+    // resultsHTMLObjects[i]
+    $(resultsHTMLObjects[i]).removeClass("hide");
+  }
+}
 
 function evaluateAnswer(userAnswer) {
   var question = $("#pr2__question").text();
@@ -66,7 +104,7 @@ function appendResult() {
     // country, capital, checkmark
     answer = '<i class="fa fa-check" aria-hidden="true"></i>';
     resHTML = `
-      <tr class="correct">
+      <tr class="result correct">
       <td>${country}</td>
       <td>${capital}</td>
       <td>${answer}</td>
@@ -76,13 +114,12 @@ function appendResult() {
     // country, user answer, correct capital
     answer = resultsArray[0].userAnswer;
     resHTML = `
-      <tr class="incorrect">
+      <tr class="result incorrect">
       <td>${country}</td>
       <td><s>${answer}<s></td>
       <td>${capital}</td>
       </tr>
       `;
   }
-
   $("#filterSection").after(resHTML);
 }
