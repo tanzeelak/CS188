@@ -24,6 +24,7 @@ $(document).ready(function() {
       resetFilter();
       evaluateAnswer(ui.item.value);
       updatePair();
+      return false;
     }
   });
 
@@ -111,7 +112,7 @@ function appendResult() {
       <tr class="result correct">
       <td>${country}</td>
       <td>${capital}</td>
-      <td>${answer} <button id="deleteButton">Delete</button> </td>
+      <td>${answer}<button id="deleteButton">Delete</button> </td>
       </tr>
       `;
   } else {
@@ -121,7 +122,7 @@ function appendResult() {
       <tr class="result incorrect">
       <td>${country}</td>
       <td><s>${answer}<s></td>
-      <td>${capital} <button id="deleteButton">Delete</button></td>
+      <td>${capital}<button id="deleteButton">Delete</button></td>
       </tr>
       `;
   }
