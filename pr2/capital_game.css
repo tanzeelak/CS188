@@ -1,37 +1,36 @@
 body {
-    background-color: #eee;
+  background-color: #eee;
 }
 
 .title {
-    font-family: 'Meddon', cursive;
+  font-family: "Meddon", cursive;
 }
 
 .correct {
-    color: blue;
+  color: blue;
 }
 
 .incorrect {
-    color: red;
+  color: red;
 }
 
 .header-cells {
-    text-align: left;
+  text-align: left;
 }
 
 .content {
-    width: 1000px;
-    margin: 0 auto; 
-} 
+  width: 900px;
+  margin: 0 auto;
+}
 
 table {
-    border-collapse: collapse;
+  border-collapse: collapse;
 }
 
 th {
-    border-bottom: 1px solid black;
+  border-bottom: 1px solid black;
 }
 
 td {
-    border-bottom: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
 }
-

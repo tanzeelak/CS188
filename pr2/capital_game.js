@@ -84,5 +84,5 @@ function appendResult() {
       `;
   }
 
-  $("#currentQuestion").after(resHTML);
+  $("#filterSection").after(resHTML);
 }
