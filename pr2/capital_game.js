@@ -10,6 +10,8 @@ $(document).ready(function() {
   var userAnswer = $("#pr2__answer");
 
   $("#pr2__submit").click(function() {
+    resetButton();
+    resetFilter();
     evaluateAnswer(userAnswer.val());
     updatePair();
   });
@@ -18,6 +20,8 @@ $(document).ready(function() {
     source: country_capital_pairs.map(x => x["capital"]),
     minLength: 2,
     select: function(event, ui) {
+      resetButton();
+      resetFilter();
       evaluateAnswer(ui.item.value);
       updatePair();
     }
@@ -28,7 +32,6 @@ $(document).ready(function() {
     var checked = filters.filter(function() {
       return $(this).prop("checked");
     });
-    console.log(checked.val());
     var checkedVal = checked.val();
     resetFilter();
     if (checkedVal == "correct") {
@@ -50,6 +53,11 @@ $(document).ready(function() {
     }
   });
 });
+
+function resetButton() {
+  var radioButtons = $(":radio[value='all']");
+  radioButtons[0].checked = true;
+}
 
 function resetFilter() {
   // console.log("im in reset filter");
