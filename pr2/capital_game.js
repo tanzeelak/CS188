@@ -60,12 +60,8 @@ function resetButton() {
 }
 
 function resetFilter() {
-  // console.log("im in reset filter");
   var resultsHTMLObjects = document.getElementsByClassName("result");
-  // console.log(resultsHTMLObjects);
   for (var i = 0; i < resultsHTMLObjects.length; i++) {
-    console.log(resultsHTMLObjects[i]);
-    // resultsHTMLObjects[i]
     $(resultsHTMLObjects[i]).removeClass("hide");
   }
 }
@@ -115,7 +111,7 @@ function appendResult() {
       <tr class="result correct">
       <td>${country}</td>
       <td>${capital}</td>
-      <td>${answer}</td>
+      <td>${answer} <button id="deleteButton">Delete</button> </td>
       </tr>
       `;
   } else {
@@ -125,9 +121,15 @@ function appendResult() {
       <tr class="result incorrect">
       <td>${country}</td>
       <td><s>${answer}<s></td>
-      <td>${capital}</td>
+      <td>${capital} <button id="deleteButton">Delete</button></td>
       </tr>
       `;
   }
   $("#filterSection").after(resHTML);
+  $("#deleteButton").on("click", function(event) {
+    $(this)
+      .parent()
+      .parent()
+      .remove();
+  });
 }
