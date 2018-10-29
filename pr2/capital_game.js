@@ -8,7 +8,6 @@ $(document).ready(function() {
   updatePair();
 
   var userAnswer = $("#pr2__answer");
-
   $("#pr2__submit").click(function() {
     resetButton();
     resetFilter();
