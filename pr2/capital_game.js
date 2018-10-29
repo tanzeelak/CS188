@@ -7,35 +7,39 @@ $(document).ready(function() {
   var country_capital_pairs = pairs;
   updatePair();
 
+  var userAnswer = $("#pr2__answer");
+
   $("#pr2__submit").click(function() {
-    evaluateAnswer();
+    evaluateAnswer(userAnswer.val());
     updatePair();
   });
 
-  var answer = $("#pr2__answer");
-  console.log(answer.val());
-  answer.autocomplete({
+  userAnswer.autocomplete({
     source: country_capital_pairs.map(x => x["capital"]),
-    minLength: 2
+    minLength: 2,
+    select: function(event, ui) {
+      evaluateAnswer(ui.item.value);
+      updatePair();
+    }
   });
 });
 
-function evaluateAnswer() {
+function evaluateAnswer(userAnswer) {
   var question = $("#pr2__question").text();
   var correctAnswer = currentPair["capital"];
-  var answer = $("#pr2__answer").val();
-  if (correctAnswer == answer) {
+  // var answer = $("#pr2__answer").val();
+  if (correctAnswer == userAnswer) {
     resultsArray.unshift({
       country: question,
       capital: correctAnswer,
-      userAnswer: answer,
+      userAnswer: userAnswer,
       correct: true
     });
   } else {
     resultsArray.unshift({
       country: question,
       capital: correctAnswer,
-      userAnswer: answer,
+      userAnswer: userAnswer,
       correct: false
     });
   }
