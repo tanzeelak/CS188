@@ -5,14 +5,14 @@ var resultsArray = [];
 
 $(document).ready(function() {
   var country_capital_pairs = pairs;
-  updatePair();
+  newQuestion();
 
   var userAnswer = $("#pr2__answer");
   $("#pr2__submit").click(function() {
     resetButton();
     resetFilter();
     evaluateAnswer(userAnswer.val());
-    updatePair();
+    newQuestion();
   });
 
   userAnswer.autocomplete({
@@ -22,7 +22,7 @@ $(document).ready(function() {
       resetButton();
       resetFilter();
       evaluateAnswer(ui.item.value);
-      updatePair();
+      newQuestion();
       return false;
     }
   });
@@ -54,6 +54,13 @@ $(document).ready(function() {
   });
 });
 
+function resetFormAndEvaluate(answer) {
+  resetButton();
+  resetFilter();
+  evaluateAnswer(answer);
+  newQuestion();
+}
+
 function resetButton() {
   var radioButtons = $(":radio[value='all']");
   radioButtons[0].checked = true;
@@ -68,27 +75,26 @@ function resetFilter() {
 
 function evaluateAnswer(userAnswer) {
   var question = $("#pr2__question").text();
-  var correctAnswer = currentPair["capital"];
-  // var answer = $("#pr2__answer").val();
-  if (correctAnswer == userAnswer) {
+  var capital = currentPair["capital"];
+  if (capital == userAnswer) {
     resultsArray.unshift({
       country: question,
-      capital: correctAnswer,
+      capital: capital,
       userAnswer: userAnswer,
       correct: true
     });
   } else {
     resultsArray.unshift({
       country: question,
-      capital: correctAnswer,
+      capital: capital,
       userAnswer: userAnswer,
       correct: false
     });
   }
-  appendResult();
+  appendResultToHTML();
 }
 
-function updatePair() {
+function newQuestion() {
   var question = $("#pr2__question");
   var answer = $("#pr2__answer");
   var randNum = Math.floor(Math.random() * 170);
@@ -98,11 +104,12 @@ function updatePair() {
   answer.val("");
 }
 
-function appendResult() {
-  var resHTML, answer;
-  var country = resultsArray[0].country;
-  var capital = resultsArray[0].capital;
-  var correctness = resultsArray[0].correct;
+function appendResultToHTML() {
+  var resHTML, userAnswer;
+  var newResult = resultsArray[0];
+  var country = newResult.country;
+  var capital = newResult.capital;
+  var correctness = newResult.correct;
 
   if (correctness) {
     // country, capital, checkmark
@@ -116,11 +123,11 @@ function appendResult() {
       `;
   } else {
     // country, user answer, correct capital
-    answer = resultsArray[0].userAnswer;
+    userAnswer = newResult.userAnswer;
     resHTML = `
       <tr class="result incorrect">
       <td>${country}</td>
-      <td><s>${answer}<s></td>
+      <td><s>${userAnswer}<s></td>
       <td>${capital}<button id="deleteButton">Delete</button></td>
       </tr>
       `;
