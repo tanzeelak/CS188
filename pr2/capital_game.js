@@ -5,12 +5,13 @@ var resultsArray = [];
 
 $(document).ready(function() {
   var country_capital_pairs = pairs;
-  newQuestion();
 
+  // Generate a new question
+  newQuestion();
   var userAnswer = $("#pr2__answer");
   $("#pr2__submit").click(function() {
     resetButton();
-    resetFilter();
+    displayAllElements();
     evaluateAnswer(userAnswer.val());
     newQuestion();
   });
@@ -20,7 +21,7 @@ $(document).ready(function() {
     minLength: 2,
     select: function(event, ui) {
       resetButton();
-      resetFilter();
+      displayAllElements();
       evaluateAnswer(ui.item.value);
       newQuestion();
       return false;
@@ -33,17 +34,19 @@ $(document).ready(function() {
       return $(this).prop("checked");
     });
     var checkedVal = checked.val();
-    resetFilter();
+
+    // Reset filter
+    displayAllElements();
+
+    // Add ".correct" or ".incorrect" based on checkedVal
     if (checkedVal == "correct") {
-      // add back if incorrect
       var resultsHTMLObjects = document.getElementsByClassName("result");
       for (var i = 0; i < resultsHTMLObjects.length; i++) {
         if ($(resultsHTMLObjects[i]).hasClass("incorrect")) {
           $(resultsHTMLObjects[i]).addClass("hide");
         }
       }
-    } else if (checkedVal == "wrong") {
-      // add back if incorrect
+    } else if (checkedVal == "incorrect") {
       var resultsHTMLObjects = document.getElementsByClassName("result");
       for (var i = 0; i < resultsHTMLObjects.length; i++) {
         if ($(resultsHTMLObjects[i]).hasClass("correct")) {
@@ -54,19 +57,13 @@ $(document).ready(function() {
   });
 });
 
-function resetFormAndEvaluate(answer) {
-  resetButton();
-  resetFilter();
-  evaluateAnswer(answer);
-  newQuestion();
-}
-
 function resetButton() {
   var radioButtons = $(":radio[value='all']");
   radioButtons[0].checked = true;
 }
 
-function resetFilter() {
+function displayAllElements() {
+  // Remove hide class from all ".result" HTML objects
   var resultsHTMLObjects = document.getElementsByClassName("result");
   for (var i = 0; i < resultsHTMLObjects.length; i++) {
     $(resultsHTMLObjects[i]).removeClass("hide");
@@ -76,25 +73,28 @@ function resetFilter() {
 function evaluateAnswer(userAnswer) {
   var question = $("#pr2__question").text();
   var capital = currentPair["capital"];
+
+  // Append new answer to beginning of array
   if (capital == userAnswer) {
     resultsArray.unshift({
       country: question,
       capital: capital,
       userAnswer: userAnswer,
-      correct: true
+      isCorrect: true
     });
   } else {
     resultsArray.unshift({
       country: question,
       capital: capital,
       userAnswer: userAnswer,
-      correct: false
+      isCorrect: false
     });
   }
   appendResultToHTML();
 }
 
 function newQuestion() {
+  // Generate a random question and clear answer form
   var question = $("#pr2__question");
   var answer = $("#pr2__answer");
   var randNum = Math.floor(Math.random() * 170);
@@ -109,10 +109,10 @@ function appendResultToHTML() {
   var newResult = resultsArray[0];
   var country = newResult.country;
   var capital = newResult.capital;
-  var correctness = newResult.correct;
+  var isCorrect = newResult.isCorrect;
 
-  if (correctness) {
-    // country, capital, checkmark
+  // Create new HTML object depending on correctness
+  if (isCorrect) {
     answer = '<i class="fa fa-check" aria-hidden="true"></i>';
     resHTML = `
       <tr class="result correct">
@@ -122,7 +122,6 @@ function appendResultToHTML() {
       </tr>
       `;
   } else {
-    // country, user answer, correct capital
     userAnswer = newResult.userAnswer;
     resHTML = `
       <tr class="result incorrect">
@@ -133,7 +132,9 @@ function appendResultToHTML() {
       `;
   }
   $("#filterSection").after(resHTML);
-  $("#deleteButton").on("click", function(event) {
+
+  // After dynamically creating delete button, add click function
+  $("#deleteButton").click(function() {
     $(this)
       .parent()
       .parent()
